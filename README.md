@@ -1,5 +1,5 @@
 # AIHotFlow Dashboard
 
-This public repository contains only generated static dashboard HTML snapshots.
+This public repository contains generated static dashboard HTML snapshots.
 
-Core source code and raw data remain in the private AIHotFlow repository.
+Core source code and raw strategy data remain in the private AIHotFlow repository.

@@ -2,15 +2,40 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>AIHot资金流 策略看板</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIHotFlow AI交易决策系统</title>
+<style>
+body{margin:0;font-family:Arial,"Microsoft YaHei",sans-serif;color:#17202a;background:#ffffff}
+header{padding:30px 28px 20px;border-bottom:1px solid #d8dee6;background:#f7f8fa}
+main{max-width:1280px;margin:0 auto;padding:26px 24px 48px}
+h1{margin:0 0 8px;font-size:30px;letter-spacing:0}p{line-height:1.7}.muted{color:#64707d}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:22px}
+.card{display:block;text-decoration:none;color:#17202a;border:1px solid #d8dee6;border-radius:8px;padding:18px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.card:hover{border-color:#1b6fb8;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.card h2{margin:0 0 10px;font-size:20px;letter-spacing:0}.card strong{display:block;font-size:28px;margin-bottom:8px;color:#1b6fb8}
+.note{border-left:4px solid #1b6fb8;background:#f4f8fc;padding:12px 14px;margin-top:24px}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.grid{grid-template-columns:1fr}header{padding:22px 18px 16px}main{padding:18px 16px 36px}}
+</style>
 </head>
 <body>
-<h1>AIHot资金流 策略看板</h1>
-<p>生成时间（北京时间）：2026-06-07T20:24:28+08:00</p>
-<pre># A股交易计划（2026-06-07）
-
-交易日历标记为休市，不生成交易执行计划。
-</pre>
+<header>
+<h1>AIHotFlow AI交易决策系统</h1>
+<div class="muted">生成时间 2026-06-07T13:38:09 | 仅用于模拟交易、复盘和决策辅助，不执行真实下单</div>
+</header>
+<main>
+<p>这里是 AIHotFlow-Dashboard 的统一入口。系统将自动模拟交易账户和手动交易账户分开记录、独立复盘，并提供对比视图。</p>
+<div class="grid">
+<a class="card" href="dashboard.html"><strong>01</strong><h2>策略看板</h2><p>查看美股热点映射、A股题材、候选评分、资金流、回测和AI解读。</p></a>
+<a class="card" href="trading_cockpit.html"><strong>02</strong><h2>交易驾驶舱</h2><p>查看模拟账户权益、现金比例、持仓风控、模拟成交和交易归因。</p></a>
+<a class="card" href="manual_vs_ai.html"><strong>03</strong><h2>AI账户 vs 我的账户</h2><p>比较AI模拟账户和手动交易账户的持仓、胜率、盈亏和题材归因。</p></a>
+<a class="card" href="personal_trade_coach.html"><strong>04</strong><h2>我的交易教练</h2><p>分析手动持仓和成交习惯，输出仓位风险、纪律和改进建议。</p></a>
+<a class="card" href="trade_behavior_v2.html"><strong>05</strong><h2>交易行为画像2.0</h2><p>识别仓位过高、只买不卖、重复交易、利润保护不足等行为模式。</p></a>
+<a class="card" href="personal_rule_score.html"><strong>06</strong><h2>个人规则评分</h2><p>按现金纪律、单票仓位、止损、止盈和交易频率评估执行力。</p></a>
+<a class="card" href="monthly_review.html"><strong>07</strong><h2>月度复盘中心</h2><p>总结本月最佳和最差持仓、交易频率、主要问题和下月改进目标。</p></a>
+</div>
+<div class="note"><b>使用说明：</b>自动模拟账户由系统按规则运行；手动账户只根据你提供的持仓截图、成交截图或明确文字确认更新，不会被 AI 自动策略改写。所有报告只做复盘和风控辅助，不构成投资建议。</div>
+</main>
 </body>
 </html>
-<!-- Published by AIHotFlow at 2026-06-07 12:24:28 UTC. Static HTML only; source/data not included. -->
+<!-- Published by AIHotFlow at 2026-06-07 13:38:10 UTC. Static HTML only; source/data not included. -->

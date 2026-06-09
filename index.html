@@ -3,17 +3,77 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIHotFlow 统一控制台</title>
+<title>AIHotFlow 统一控制台 | AIHotFlow</title>
 <style>
-:root{--bg:#f5f7fb;--paper:#fff;--ink:#151922;--muted:#667085;--line:#dfe5ee;--blue:#1f5f8b;--green:#16734d;--amber:#936300;--soft:#f9fafb;--blue-soft:#eef5ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Microsoft YaHei",sans-serif}.layout{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}.side{background:var(--paper);border-right:1px solid var(--line);padding:18px 12px}.brand{font-weight:800;color:var(--blue);font-size:18px;margin-bottom:18px}.nav-title{font-size:12px;color:var(--muted);font-weight:800;margin:16px 8px 6px}.nav a{display:block;text-decoration:none;color:var(--ink);padding:9px 10px;border-radius:6px;font-size:13px}.nav a:hover,.nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:800}.top{background:var(--paper);border-bottom:1px solid var(--line);padding:20px 28px}.top h1{margin:0;font-size:25px}.sub{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.6}.content{padding:22px 28px 44px;max-width:1440px}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}.metric,.panel,.link{background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 2px rgba(21,25,34,.04)}.metric{padding:14px;border-top:3px solid var(--blue)}.label{font-size:12px;color:var(--muted);font-weight:800}.value{font-size:23px;font-weight:800;margin-top:6px}.note{font-size:12px;color:var(--muted);margin-top:6px}.panel{padding:16px;margin-bottom:14px}.panel h2{font-size:17px;margin:0 0 10px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.link{display:block;text-decoration:none;padding:15px;min-height:96px}.link strong{display:block;color:var(--blue);margin-bottom:7px}.link span{color:var(--muted);font-size:13px;line-height:1.55}.table{overflow:auto;border:1px solid var(--line);border-radius:8px}table{width:100%;border-collapse:collapse;font-size:13px;background:white}th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--soft);color:#475467;font-size:12px}.badge{display:inline-flex;border-radius:999px;padding:3px 8px;background:var(--soft);border:1px solid var(--line);font-size:12px;font-weight:800}.warn{background:#fff7e6;color:var(--amber)}.good{background:#edf8f1;color:var(--green)}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.top,.content{padding-left:16px;padding-right:16px}}
+:root {
+  --bg:#f5f7fb; --paper:#fff; --soft:#f9fafb; --ink:#151922; --muted:#667085; --line:#dfe5ee;
+  --blue:#1f5f8b; --green:#16734d; --amber:#936300; --red:#a13b32;
+  --blue-soft:#eef5ff; --green-soft:#edf8f1; --amber-soft:#fff7e6; --red-soft:#fff1ef;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:Arial,"Microsoft YaHei",sans-serif; }
+a { color:inherit; }
+.layout { display:grid; grid-template-columns:260px minmax(0,1fr); min-height:100vh; }
+.sidebar { background:var(--paper); border-right:1px solid var(--line); padding:16px 12px; position:sticky; top:0; height:100vh; overflow:auto; }
+.brand { padding:4px 4px 14px; border-bottom:1px solid var(--line); margin-bottom:10px; }
+.brand strong { display:block; color:var(--blue); font-size:17px; }
+.brand span { display:block; margin-top:4px; color:var(--muted); font-size:12px; }
+.nav-group { margin:12px 0; }
+.nav-title { color:var(--muted); font-size:11px; font-weight:800; padding:8px 8px 5px; }
+.nav-link { display:block; text-decoration:none; padding:8px 9px; border-left:3px solid transparent; border-radius:6px; font-size:13px; line-height:1.3; }
+.nav-link:hover,.nav-link.active { background:var(--blue-soft); border-left-color:var(--blue); color:var(--blue); font-weight:800; }
+.main { min-width:0; }
+.topbar { background:var(--paper); border-bottom:1px solid var(--line); padding:18px 28px; }
+.topbar h1 { margin:0; font-size:25px; line-height:1.15; letter-spacing:0; }
+.subtitle { margin:7px 0 0; color:var(--muted); font-size:13px; line-height:1.6; }
+.content { max-width:1500px; padding:20px 28px 44px; }
+.metric-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:16px; }
+.metric,.panel,.feature-card { background:var(--paper); border:1px solid var(--line); border-radius:8px; box-shadow:0 1px 2px rgba(21,25,34,.04); }
+.metric { padding:14px; border-top:3px solid var(--blue); }
+.metric-label { color:var(--muted); font-size:12px; font-weight:800; }
+.metric-value { margin-top:6px; color:var(--ink); font-size:23px; font-weight:800; line-height:1.1; }
+.metric-note { margin-top:6px; color:var(--muted); font-size:12px; }
+.panel { padding:16px; margin-bottom:14px; }
+.panel h2 { margin:0 0 10px; font-size:17px; line-height:1.2; }
+.section-note { margin:0 0 12px; color:var(--muted); font-size:13px; line-height:1.6; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
+.feature-card { display:block; text-decoration:none; padding:15px; min-height:112px; }
+.feature-card:hover { border-color:var(--blue); box-shadow:0 6px 18px rgba(31,95,139,.10); }
+.feature-card strong { display:block; color:var(--blue); font-size:15px; margin-bottom:7px; }
+.feature-card span { color:var(--muted); font-size:13px; line-height:1.55; }
+.table-wrap { overflow:auto; border:1px solid var(--line); border-radius:8px; }
+table { width:100%; border-collapse:collapse; font-size:13px; background:var(--paper); }
+th,td { padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+th { background:var(--soft); color:#475467; font-size:12px; font-weight:800; white-space:nowrap; }
+tbody tr:nth-child(even) { background:#fcfdff; }
+.badge { display:inline-flex; border:1px solid var(--line); border-radius:999px; background:var(--soft); padding:3px 8px; font-size:12px; font-weight:800; line-height:1.35; white-space:nowrap; }
+.badge.good { border-color:#b8dec8; background:var(--green-soft); color:var(--green); }
+.badge.warn { border-color:#efd49a; background:var(--amber-soft); color:var(--amber); }
+.badge.bad { border-color:#f1b8b3; background:var(--red-soft); color:var(--red); }
+.muted { color:var(--muted); }
+.markdown { white-space:pre-wrap; color:#344054; font-size:13px; line-height:1.7; background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:12px; max-height:360px; overflow:auto; }
+@media(max-width:920px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar { position:static; height:auto; border-right:0; border-bottom:1px solid var(--line); }
+  .topbar,.content { padding-left:16px; padding-right:16px; }
+}
 </style>
 </head>
 <body>
 <div class="layout">
-<aside class="side"><div class="brand">AIHotFlow</div><nav class="nav"><div class="nav-title">总览</div><a class="active" href="index.html">控制台首页</a><a href="dashboard.html">策略看板</a><a href="trading_cockpit.html">交易驾驶舱</a><div class="nav-title">业务页</div><a href="data_sources.html">数据源状态</a><a href="candidate_center.html">候选与评分</a><a href="risk_flow.html">风控与资金</a><a href="review_center.html">复盘中心</a></nav></aside>
-<main><header class="top"><h1>AIHotFlow 统一控制台</h1><div class="sub">刷新时间 2026-06-09 22:11:53 +08:00。首页已改为运行状态台，减少重复入口；所有内容仅用于复盘和决策辅助，不构成投资建议。</div></header>
-<div class="content"><div class="metrics"><div class="metric"><div class="label">候选股票</div><div class="value">150</div><div class="note">通过过滤 12 个</div></div><div class="metric"><div class="label">市场风险</div><div class="value">low</div><div class="note">风险分 35</div></div><div class="metric"><div class="label">数据质量</div><div class="value">warning</div><div class="note">问题 11 个，行情仍有降级</div></div><div class="metric"><div class="label">计划交易日</div><div class="value">2026-06-09</div><div class="note">今日交易计划</div></div></div>
-<section class="panel"><h2>今日重点候选</h2><div class="table"><table><thead><tr><th>股票</th><th>评分</th><th>动作</th><th>题材</th><th>状态</th></tr></thead><tbody><tr><td>沪电股份</td><td>67.0</td><td><span class="badge warn">observe-only</span></td><td>AI Compute/GPU、High-speed Interconnect、PCB</td><td>缺少行情，默认观察</td></tr><tr><td>中际旭创</td><td>66.58</td><td><span class="badge warn">observe-only</span></td><td>AI Compute/GPU、Optical Communication</td><td>缺少行情，默认观察</td></tr><tr><td>新易盛</td><td>66.16</td><td><span class="badge warn">observe-only</span></td><td>AI Compute/GPU、High-speed Interconnect、Optical Communication</td><td>缺少行情，默认观察</td></tr><tr><td>深科技</td><td>63.22</td><td><span class="badge warn">observe-only</span></td><td>Advanced Packaging、HBM</td><td>缺少行情，默认观察</td></tr></tbody></table></div></section>
-<section class="panel"><h2>常用入口</h2><div class="grid"><a class="link" href="dashboard.html"><strong>策略看板</strong><span>完整候选、题材、资金流和推送摘要。</span></a><a class="link" href="trading_cockpit.html"><strong>交易驾驶舱</strong><span>账户、持仓、动作和成交模拟。</span></a><a class="link" href="data_sources.html"><strong>数据源状态</strong><span>检查数据是否新鲜、是否使用 fallback。</span></a><a class="link" href="review_center.html"><strong>复盘中心</strong><span>回测、归因、审计和复盘摘要。</span></a></div></section></div></main></div>
+<aside class="sidebar">
+  <div class="brand"><strong>AIHotFlow</strong><span>AI交易决策系统</span></div>
+  <div class="nav-group"><div class="nav-title">总览</div><a class="nav-link active" href="index.html">控制台首页</a><a class="nav-link" href="dashboard.html">策略看板</a><a class="nav-link" href="trading_cockpit.html">交易驾驶舱</a></div><div class="nav-group"><div class="nav-title">后端聚合</div><a class="nav-link" href="data_sources.html">数据源状态</a><a class="nav-link" href="theme_lab.html">题材分析</a><a class="nav-link" href="candidate_center.html">候选与评分</a><a class="nav-link" href="risk_flow.html">风控与资金</a><a class="nav-link" href="review_center.html">复盘中心</a><a class="nav-link" href="system_center.html">系统中心</a></div><div class="nav-group"><div class="nav-title">账户与交易</div><a class="nav-link" href="manual_vs_ai.html">AI账户 vs 手动账户</a><a class="nav-link" href="personal_trade_coach.html">交易教练</a><a class="nav-link" href="trade_behavior_v2.html">行为画像</a><a class="nav-link" href="personal_rule_score.html">规则评分</a><a class="nav-link" href="monthly_review.html">月度复盘</a></div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <h1>AIHotFlow 统一控制台</h1>
+    <div class="subtitle">后端流水线已经产出的数据，在这里按业务域汇总进入。<br>生成时间 2026-06-09T22:33:58+08:00，仅用于复盘和决策辅助，不构成投资建议。</div>
+  </header>
+  <div class="content"><div class="metric-grid"><div class="metric"><div class="metric-label">AI账户权益</div><div class="metric-value">10.00万</div><div class="metric-note">持仓 0 个</div></div><div class="metric"><div class="metric-label">候选股票</div><div class="metric-value">150</div><div class="metric-note">通过过滤 12 个</div></div><div class="metric"><div class="metric-label">市场风险</div><div class="metric-value">low</div><div class="metric-note">风险分 35</div></div><div class="metric"><div class="metric-label">数据质量</div><div class="metric-value">warning</div><div class="metric-note">问题 5 个</div></div><div class="metric"><div class="metric-label">计划交易日</div><div class="metric-value">2026-06-09</div><div class="metric-note">today</div></div><div class="metric"><div class="metric-label">公开发布</div><div class="metric-value">N/A</div><div class="metric-note">尚未记录</div></div></div><section class="panel"><h2>今日重点候选</h2><p class="section-note">只展示当前通过过滤的前 8 个候选，完整列表进入候选中心。</p><div class="table-wrap"><table><thead><tr><th>股票</th><th>评分</th><th>动作</th><th>题材</th><th>状态</th></tr></thead><tbody><tr><td>沪电股份</td><td>74.7</td><td><span class="badge neutral">confirm-before-small-trial</span></td><td>AI Compute/GPU、High-speed Interconnect、PCB</td><td>技术面较强</td></tr><tr><td>中际旭创</td><td>74.7</td><td><span class="badge neutral">confirm-before-small-trial</span></td><td>AI Compute/GPU、Optical Communication</td><td>技术面较强</td></tr><tr><td>新易盛</td><td>72.26</td><td><span class="badge neutral">watch</span></td><td>AI Compute/GPU、High-speed Interconnect、Optical Communication</td><td>技术面中性偏强</td></tr><tr><td>深科技</td><td>69.24</td><td><span class="badge neutral">confirm-before-small-trial</span></td><td>Advanced Packaging、HBM</td><td>技术面较强</td></tr><tr><td>江波龙</td><td>68.82</td><td><span class="badge neutral">confirm-before-small-trial</span></td><td>HBM</td><td>技术面较强</td></tr><tr><td>通富微电</td><td>68.82</td><td><span class="badge neutral">confirm-before-small-trial</span></td><td>Advanced Packaging、HBM</td><td>技术面较强</td></tr><tr><td>长电科技</td><td>67.22</td><td><span class="badge neutral">watch</span></td><td>Advanced Packaging、HBM</td><td>技术面中性偏强</td></tr><tr><td>佰维存储</td><td>66.72</td><td><span class="badge neutral">confirm-before-small-trial</span></td><td>HBM</td><td>技术面较强</td></tr></tbody></table></div></section><section class="panel"><h2>持仓动作</h2><p class="section-note">减少首页重复入口，优先展示需要看的动作和风险。</p><div class="table-wrap"><table><thead><tr><th>股票</th><th>动作</th><th>盈亏</th><th>说明</th></tr></thead><tbody><tr><td colspan="4" class="muted">暂无数据</td></tr></tbody></table></div></section><section class="panel"><h2>数据新鲜度</h2><p class="section-note">如果这里显示旧日期，说明公开页还没有跑到最新流水线。</p><div class="table-wrap"><table><thead><tr><th>模块</th><th>状态</th><th>更新时间</th></tr></thead><tbody><tr><td>候选排名</td><td><span class="badge warn">{&#x27;a_share_hotspots&#x27;: &#x27;fallback&#x27;, &#x27;theme_scores&#x27;: {&#x27;us_hotstocks&#x27;: &#x27;yahoo_trending+fallback&#x27;, &#x27;us_top_gainers&#x27;: &#x27;yahoo_day_gainers_top100&#x27;, &#x27;us_volume_leaders&#x27;: &#x27;yahoo_most_actives_top100&#x27;, &#x27;us_hot_momentum&#x27;: {&#x27;gainers&#x27;: &#x27;yahoo_day_gainers_top100&#x27;, &#x27;volume_leaders&#x27;: &#x27;yahoo_most_actives_top100&#x27;}, &#x27;us_event_hotspots&#x27;: &#x27;Yahoo Finance RSS + broad fallback&#x27;}, &#x27;company_mapping&#x27;: &#x27;mapping.json&#x27;, &#x27;theme_mapping&#x27;: &#x27;theme_mapping.json&#x27;, &#x27;popularity_fusion&#x27;: &#x27;a_share_popularity_fusion.json&#x27;}</span></td><td>2026-06-09T14:33:51</td></tr><tr><td>风险控制</td><td><span class="badge good">low</span></td><td>2026-06-09T14:33:52</td></tr><tr><td>数据质量</td><td><span class="badge warn">warning</span></td><td>2026-06-09T14:33:54</td></tr><tr><td>交易动作</td><td><span class="badge neutral">0 个持仓</span></td><td>2026-06-09T22:33:52+08:00</td></tr><tr><td>模拟决策</td><td><span class="badge good">low</span></td><td>2026-06-09T14:33:54</td></tr><tr><td>周复盘</td><td><span class="badge neutral">7 天窗口</span></td><td>2026-06-09T14:33:54</td></tr></tbody></table></div></section><section class="panel"><h2>常用入口</h2><div class="grid"><a class="feature-card" href="dashboard.html"><strong>策略看板</strong><span>查看完整候选、题材和推送摘要</span></a><a class="feature-card" href="trading_cockpit.html"><strong>交易驾驶舱</strong><span>查看账户、持仓和成交模拟</span></a><a class="feature-card" href="data_sources.html"><strong>数据源状态</strong><span>确认数据是否新鲜、是否降级</span></a><a class="feature-card" href="review_center.html"><strong>复盘中心</strong><span>查看回测、归因和复盘</span></a></div></section></div>
+</main>
+</div>
 </body>
 </html>
+<!-- Published by AIHotFlow at 2026-06-09 14:33:58 UTC. Static HTML only; source/data not included. -->

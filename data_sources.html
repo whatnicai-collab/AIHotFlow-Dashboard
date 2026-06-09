@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数据源状态 | AIHotFlow</title>
+<style>
+:root {
+  --bg:#f5f7fb; --paper:#fff; --soft:#f9fafb; --ink:#151922; --muted:#667085; --line:#dfe5ee;
+  --blue:#1f5f8b; --green:#16734d; --amber:#936300; --red:#a13b32;
+  --blue-soft:#eef5ff; --green-soft:#edf8f1; --amber-soft:#fff7e6; --red-soft:#fff1ef;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:Arial,"Microsoft YaHei",sans-serif; }
+a { color:inherit; }
+.layout { display:grid; grid-template-columns:260px minmax(0,1fr); min-height:100vh; }
+.sidebar { background:var(--paper); border-right:1px solid var(--line); padding:16px 12px; position:sticky; top:0; height:100vh; overflow:auto; }
+.brand { padding:4px 4px 14px; border-bottom:1px solid var(--line); margin-bottom:10px; }
+.brand strong { display:block; color:var(--blue); font-size:17px; }
+.brand span { display:block; margin-top:4px; color:var(--muted); font-size:12px; }
+.nav-group { margin:12px 0; }
+.nav-title { color:var(--muted); font-size:11px; font-weight:800; padding:8px 8px 5px; }
+.nav-link { display:block; text-decoration:none; padding:8px 9px; border-left:3px solid transparent; border-radius:6px; font-size:13px; line-height:1.3; }
+.nav-link:hover,.nav-link.active { background:var(--blue-soft); border-left-color:var(--blue); color:var(--blue); font-weight:800; }
+.main { min-width:0; }
+.topbar { background:var(--paper); border-bottom:1px solid var(--line); padding:18px 28px; }
+.topbar h1 { margin:0; font-size:25px; line-height:1.15; letter-spacing:0; }
+.subtitle { margin:7px 0 0; color:var(--muted); font-size:13px; line-height:1.6; }
+.content { max-width:1500px; padding:20px 28px 44px; }
+.metric-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:16px; }
+.metric,.panel,.feature-card { background:var(--paper); border:1px solid var(--line); border-radius:8px; box-shadow:0 1px 2px rgba(21,25,34,.04); }
+.metric { padding:14px; border-top:3px solid var(--blue); }
+.metric-label { color:var(--muted); font-size:12px; font-weight:800; }
+.metric-value { margin-top:6px; color:var(--ink); font-size:23px; font-weight:800; line-height:1.1; }
+.metric-note { margin-top:6px; color:var(--muted); font-size:12px; }
+.panel { padding:16px; margin-bottom:14px; }
+.panel h2 { margin:0 0 10px; font-size:17px; line-height:1.2; }
+.section-note { margin:0 0 12px; color:var(--muted); font-size:13px; line-height:1.6; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
+.feature-card { display:block; text-decoration:none; padding:15px; min-height:112px; }
+.feature-card:hover { border-color:var(--blue); box-shadow:0 6px 18px rgba(31,95,139,.10); }
+.feature-card strong { display:block; color:var(--blue); font-size:15px; margin-bottom:7px; }
+.feature-card span { color:var(--muted); font-size:13px; line-height:1.55; }
+.table-wrap { overflow:auto; border:1px solid var(--line); border-radius:8px; }
+table { width:100%; border-collapse:collapse; font-size:13px; background:var(--paper); }
+th,td { padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+th { background:var(--soft); color:#475467; font-size:12px; font-weight:800; white-space:nowrap; }
+tbody tr:nth-child(even) { background:#fcfdff; }
+.badge { display:inline-flex; border:1px solid var(--line); border-radius:999px; background:var(--soft); padding:3px 8px; font-size:12px; font-weight:800; line-height:1.35; white-space:nowrap; }
+.badge.good { border-color:#b8dec8; background:var(--green-soft); color:var(--green); }
+.badge.warn { border-color:#efd49a; background:var(--amber-soft); color:var(--amber); }
+.badge.bad { border-color:#f1b8b3; background:var(--red-soft); color:var(--red); }
+.muted { color:var(--muted); }
+.markdown { white-space:pre-wrap; color:#344054; font-size:13px; line-height:1.7; background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:12px; max-height:360px; overflow:auto; }
+@media(max-width:920px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar { position:static; height:auto; border-right:0; border-bottom:1px solid var(--line); }
+  .topbar,.content { padding-left:16px; padding-right:16px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand"><strong>AIHotFlow</strong><span>AI交易决策系统</span></div>
+  <div class="nav-group"><div class="nav-title">总览</div><a class="nav-link" href="index.html">控制台首页</a><a class="nav-link" href="dashboard.html">策略看板</a><a class="nav-link" href="trading_cockpit.html">交易驾驶舱</a></div><div class="nav-group"><div class="nav-title">后端聚合</div><a class="nav-link active" href="data_sources.html">数据源状态</a><a class="nav-link" href="theme_lab.html">题材分析</a><a class="nav-link" href="candidate_center.html">候选与评分</a><a class="nav-link" href="risk_flow.html">风控与资金</a><a class="nav-link" href="review_center.html">复盘中心</a><a class="nav-link" href="system_center.html">系统中心</a></div><div class="nav-group"><div class="nav-title">账户与交易</div><a class="nav-link" href="manual_vs_ai.html">AI账户 vs 手动账户</a><a class="nav-link" href="personal_trade_coach.html">交易教练</a><a class="nav-link" href="trade_behavior_v2.html">行为画像</a><a class="nav-link" href="personal_rule_score.html">规则评分</a><a class="nav-link" href="monthly_review.html">月度复盘</a></div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <h1>数据源状态</h1>
+    <div class="subtitle">对应 fetch、diagnostics、reliability、integration 和 system health 等后端能力。<br>生成时间 2026-06-09T21:43:25+08:00，仅用于复盘和决策辅助，不构成投资建议。</div>
+  </header>
+  <div class="content"><div class="metric-grid"><div class="metric"><div class="metric-label">数据质量</div><div class="metric-value">warning</div><div class="metric-note">问题 6 个</div></div><div class="metric"><div class="metric-label">可靠性</div><div class="metric-value">N/A</div></div><div class="metric"><div class="metric-label">集成状态</div><div class="metric-value">partial</div><div class="metric-note">检查项 4 个</div></div><div class="metric"><div class="metric-label">系统健康</div><div class="metric-value">N/A</div></div><div class="metric"><div class="metric-label">A股盘中样本</div><div class="metric-value">0</div><div class="metric-note">market_snapshot_akshare.a_share_spot</div></div><div class="metric"><div class="metric-label">美股动量样本</div><div class="metric-value">100</div><div class="metric-note">{&#x27;gainers&#x27;: &#x27;yahoo_day_gainers_top100&#x27;, &#x27;volume_leaders&#x27;: &#x27;yahoo_most_actives_top100&#x27;}</div></div></div><section class="panel"><h2>集成检查</h2><div class="table-wrap"><table><thead><tr><th>检查项</th><th>状态</th><th>说明</th></tr></thead><tbody><tr><td>akshare</td><td><span class="badge neutral">True</span></td><td>N/A</td></tr><tr><td>serverchan</td><td><span class="badge neutral">True</span></td><td>N/A</td></tr><tr><td>telegram</td><td><span class="badge neutral">False</span></td><td>N/A</td></tr><tr><td>dashboard_publish</td><td><span class="badge neutral">False</span></td><td>N/A</td></tr></tbody></table></div></section><section class="panel"><h2>数据质量问题</h2><div class="table-wrap"><table><thead><tr><th>模块</th><th>级别</th><th>问题</th></tr></thead><tbody><tr><td>US Volume Leaders</td><td><span class="badge warn">warning</span></td><td>US Volume Leaders count is 10, below target 50</td></tr><tr><td>US Hotstocks</td><td><span class="badge warn">warning</span></td><td>US Hotstocks count is 0, below target 20</td></tr><tr><td>A-share Hotstocks</td><td><span class="badge warn">warning</span></td><td>A-share Hotstocks count is 10, below target 30</td></tr><tr><td>US-A Realization</td><td><span class="badge warn">warning</span></td><td>US-A Realization count is 10, below target 20</td></tr><tr><td>Candidate Details</td><td><span class="badge warn">warning</span></td><td>turnover_rate coverage is 0/150 in candidate_details.json.</td></tr><tr><td>Portfolio Intelligence</td><td><span class="badge warn">warning</span></td><td>Portfolio intelligence output is missing or too small.</td></tr></tbody></table></div></section><section class="panel"><h2>市场快照</h2><div class="markdown">{
+  &quot;generated_at&quot;: &quot;2026-06-09T13:43:16&quot;,
+  &quot;source&quot;: &quot;akshare&quot;,
+  &quot;a_share_spot&quot;: {
+    &quot;ok&quot;: true,
+    &quot;label&quot;: &quot;A-share realtime quote&quot;,
+    &quot;rows&quot;: 5526,
+    &quot;data&quot;: [
+      {
+        &quot;代码&quot;: &quot;bj920000&quot;,
+        &quot;名称&quot;: &quot;安徽凤凰&quot;,
+        &quot;最新价&quot;: 14.1,
+        &quot;涨跌额&quot;: -0.21,
+        &quot;涨跌幅&quot;: -1.468,
+        &quot;买入&quot;: 14.1,
+        &quot;卖出&quot;: 14.12,
+        &quot;昨收&quot;: 14.31,
+        &quot;今开&quot;: 14.23,
+        &quot;最高&quot;: 14.47,
+        &quot;最低&quot;: 14.04,
+        &quot;成交量&quot;: 761836.0,
+        &quot;成交额&quot;: 10803114.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920001&quot;,
+        &quot;名称&quot;: &quot;纬达光电&quot;,
+        &quot;最新价&quot;: 17.18,
+        &quot;涨跌额&quot;: -0.27,
+        &quot;涨跌幅&quot;: -1.547,
+        &quot;买入&quot;: 17.18,
+        &quot;卖出&quot;: 17.19,
+        &quot;昨收&quot;: 17.45,
+        &quot;今开&quot;: 17.28,
+        &quot;最高&quot;: 17.75,
+        &quot;最低&quot;: 16.76,
+        &quot;成交量&quot;: 5463074.0,
+        &quot;成交额&quot;: 93308773.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920002&quot;,
+        &quot;名称&quot;: &quot;万达轴承&quot;,
+        &quot;最新价&quot;: 69.3,
+        &quot;涨跌额&quot;: -1.53,
+        &quot;涨跌幅&quot;: -2.16,
+        &quot;买入&quot;: 69.3,
+        &quot;卖出&quot;: 69.31,
+        &quot;昨收&quot;: 70.83,
+        &quot;今开&quot;: 68.2,
+        &quot;最高&quot;: 69.88,
+        &quot;最低&quot;: 66.6,
+        &quot;成交量&quot;: 2822511.0,
+        &quot;成交额&quot;: 191307550.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920003&quot;,
+        &quot;名称&quot;: &quot;中诚咨询&quot;,
+        &quot;最新价&quot;: 28.77,
+        &quot;涨跌额&quot;: 0.03,
+        &quot;涨跌幅&quot;: 0.104,
+        &quot;买入&quot;: 28.76,
+        &quot;卖出&quot;: 28.77,
+        &quot;昨收&quot;: 28.74,
+        &quot;今开&quot;: 28.87,
+        &quot;最高&quot;: 28.97,
+        &quot;最低&quot;: 28.39,
+        &quot;成交量&quot;: 186092.0,
+        &quot;成交额&quot;: 5337897.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920005&quot;,
+        &quot;名称&quot;: &quot;鼎佳精密&quot;,
+        &quot;最新价&quot;: 31.63,
+        &quot;涨跌额&quot;: -0.61,
+        &quot;涨跌幅&quot;: -1.892,
+        &quot;买入&quot;: 31.63,
+        &quot;卖出&quot;: 31.7,
+        &quot;昨收&quot;: 32.24,
+        &quot;今开&quot;: 32.38,
+        &quot;最高&quot;: 32.38,
+        &quot;最低&quot;: 31.5,
+        &quot;成交量&quot;: 721682.0,
+        &quot;成交额&quot;: 22924037.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920006&quot;,
+        &quot;名称&quot;: &quot;晟楠科技&quot;,
+        &quot;最新价&quot;: 16.95,
+        &quot;涨跌额&quot;: -0.35,
+        &quot;涨跌幅&quot;: -2.023,
+        &quot;买入&quot;: 16.94,
+        &quot;卖出&quot;: 16.95,
+        &quot;昨收&quot;: 17.3,
+        &quot;今开&quot;: 17.12,
+        &quot;最高&quot;: 17.38,
+        &quot;最低&quot;: 16.77,
+        &quot;成交量&quot;: 1228381.0,
+        &quot;成交额&quot;: 20931009.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920007&quot;,
+        &quot;名称&quot;: &quot;酉立智能&quot;,
+        &quot;最新价&quot;: 43.18,
+        &quot;涨跌额&quot;: -0.23,
+        &quot;涨跌幅&quot;: -0.53,
+        &quot;买入&quot;: 43.18,
+        &quot;卖出&quot;: 43.38,
+        &quot;昨收&quot;: 43.41,
+        &quot;今开&quot;: 43.4,
+        &quot;最高&quot;: 44.4,
+        &quot;最低&quot;: 42.68,
+        &quot;成交量&quot;: 157576.0,
+        &quot;成交额&quot;: 6831198.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920008&quot;,
+        &quot;名称&quot;: &quot;成电光信&quot;,
+        &quot;最新价&quot;: 24.02,
+        &quot;涨跌额&quot;: 0.22,
+        &quot;涨跌幅&quot;: 0.924,
+        &quot;买入&quot;: 24.01,
+        &quot;卖出&quot;: 24.02,
+        &quot;昨收&quot;: 23.8,
+        &quot;今开&quot;: 23.63,
+        &quot;最高&quot;: 24.19,
+        &quot;最低&quot;: 23.31,
+        &quot;成交量&quot;: 989524.0,
+        &quot;成交额&quot;: 23561838.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920009&quot;,
+        &quot;名称&quot;: &quot;丹娜生物&quot;,
+        &quot;最新价&quot;: 36.96,
+        &quot;涨跌额&quot;: -0.28,
+        &quot;涨跌幅&quot;: -0.752,
+        &quot;买入&quot;: 36.79,
+        &quot;卖出&quot;: 36.96,
+        &quot;昨收&quot;: 37.24,
+        &quot;今开&quot;: 37.25,
+        &quot;最高&quot;: 37.25,
+        &quot;最低&quot;: 36.56,
+        &quot;成交量&quot;: 123874.0,
+        &quot;成交额&quot;: 4560557.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920010&quot;,
+        &quot;名称&quot;: &quot;凯添燃气&quot;,
+        &quot;最新价&quot;: 10.75,
+        &quot;涨跌额&quot;: -0.34,
+        &quot;涨跌幅&quot;: -3.066,
+        &quot;买入&quot;: 10.75,
+        &quot;卖出&quot;: 10.76,
+        &quot;昨收&quot;: 11.09,
+        &quot;今开&quot;: 10.8,
+        &quot;最高&quot;: 10.83,
+        &quot;最低&quot;: 10.5,
+        &quot;成交量&quot;: 6603858.0,
+        &quot;成交额&quot;: 70373259.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920011&quot;,
+        &quot;名称&quot;: &quot;晨光电机&quot;,
+        &quot;最新价&quot;: 26.14,
+        &quot;涨跌额&quot;: -0.62,
+        &quot;涨跌幅&quot;: -2.317,
+        &quot;买入&quot;: 26.14,
+        &quot;卖出&quot;: 26.15,
+        &quot;昨收&quot;: 26.76,
+        &quot;今开&quot;: 26.3,
+        &quot;最高&quot;: 26.5,
+        &quot;最低&quot;: 25.76,
+        &quot;成交量&quot;: 2830020.0,
+        &quot;成交额&quot;: 73661946.0,
+        &quot;时间戳&quot;: &quot;15:30:02&quot;
+      },
+      {
+        &quot;代码&quot;: &quot;bj920012&quot;,
+        &quot;名称&quot;: &quot;创达新材&quot;,
+        &quot;最新价&quot;: 73.0,
+        &quot;涨跌额&quot;: 4.0,
+        &quot;涨跌幅&quot;: 5.797,
+        &quot;买入&quot;: 73.0,
+        &quot;卖出</div></section></div>
+</main>
+</div>
+</body>
+</html>
+<!-- Published by AIHotFlow at 2026-06-09 13:43:25 UTC. Static HTML only; source/data not included. -->
